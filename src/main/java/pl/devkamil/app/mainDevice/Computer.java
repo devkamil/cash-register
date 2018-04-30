@@ -31,24 +31,6 @@ public class Computer {
     }
 
 
-    public BigDecimal sumOfProducts(List<Printable> listOfProduct) {
-        BigDecimal sumOfPrice = new BigDecimal("0");
-        for(Printable product: listOfProduct){
-            Product p = (Product) product;
-            sumOfPrice = sumOfPrice.add(p.getPrice());
-        }
-        return sumOfPrice;
-    }
-
-    public boolean verifyBarCode(BarCode barCode){
-        return (!EMPTY_BAR_CODE.equals(barCode.getBarCode()));
-    }
-
-    public Product findProductByBarCode(BarCode barCode){
-        return database.findProductByBarCode(barCode);
-    }
-
-
     public void run(){
 
         BarCode scannedBarCode = null;
@@ -77,8 +59,24 @@ public class Computer {
         showAndPrintResult(listOfProducts);
     }
 
+    private BigDecimal sumOfProducts(List<Printable> listOfProduct) {
+        BigDecimal sumOfPrice = new BigDecimal("0");
+        for(Printable product: listOfProduct){
+            Product p = (Product) product;
+            sumOfPrice = sumOfPrice.add(p.getPrice());
+        }
+        return sumOfPrice;
+    }
 
-    public void showAndPrintResult(List<Printable> listPrintable){
+    private boolean verifyBarCode(BarCode barCode){
+        return (!EMPTY_BAR_CODE.equals(barCode.getBarCode()));
+    }
+
+    private Product findProductByBarCode(BarCode barCode){
+        return database.findProductByBarCode(barCode);
+    }
+
+    private void showAndPrintResult(List<Printable> listPrintable){
         BigDecimal sumOfProducts = sumOfProducts(listPrintable);
         printer.print(listPrintable);
         printer.printSum(sumOfProducts);

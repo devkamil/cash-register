@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Printer {
+
     public void print(List<Printable> listOfProducts){
         StringBuilder stringBuilder = new StringBuilder();
         for(Printable printable: listOfProducts){
