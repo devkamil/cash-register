@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class BarCodeScanner {
 
     private BarCode barCode;
-    private Scanner input = new Scanner(System.in);
+    private Scanner input;
 
     public Scanner getInput() {
         return input;
@@ -17,12 +17,13 @@ public class BarCodeScanner {
         return barCode;
     }
 
+
     public BarCodeScanner(){
         barCode = new BarCode();
+        input = new Scanner(System.in);
     }
 
     public BarCode scan(){
-        System.out.println("Enter the bar code: ");
         barCode.setBarCode(input.nextLine());
         return barCode;
     }

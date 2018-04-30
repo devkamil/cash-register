@@ -49,28 +49,35 @@ public class Computer {
 
 
     public void run(){
+        BarCode scannedBarCode;
 
-        while(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
-            BarCode scannedBarCode = barCodeScanner.scan();
+        do{
+            lcdDisplay.showInputMessage("Enter the bar code: ");
+            scannedBarCode = barCodeScanner.scan();
 
             if(verifyBarCode(scannedBarCode)){
                 Product product = findProductByBarCode(scannedBarCode);
                 if(product != null){
                     listOfProducts.add(product);
-                    lcdDisplay.showMessage(product.getName(), (product.getPrice()).toString());
+                    lcdDisplay.showMessage(product.getName(), (product.getPrice()));
                 }else if(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
                     lcdDisplay.showErrorMessage("Product doesn't exist in database");
                 }
             }else{
                 lcdDisplay.showErrorMessage("Invalid bar code, try again");
             }
-        }
-        BigDecimal sumOfProducts = sumOfProducts(listOfProducts);
-        printer.print(listOfProducts);
+        }while(!EXIT.equals(barCodeScanner.getBarCode().getBarCode()));
+
+        showAndPrintProductsAndSum(listOfProducts);
+    }
+
+
+    public void showAndPrintProductsAndSum(List<Printable> listPrintable){
+        BigDecimal sumOfProducts = sumOfProducts(listPrintable);
+        printer.print(listPrintable);
         printer.printSum(sumOfProducts);
         lcdDisplay.showSum(sumOfProducts);
         barCodeScanner.closeInput();
     }
-
 
 }

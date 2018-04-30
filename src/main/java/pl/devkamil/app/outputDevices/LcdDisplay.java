@@ -4,11 +4,15 @@ import java.math.BigDecimal;
 
 public class LcdDisplay {
 
+    public void showInputMessage(String enterMessage){
+        System.out.println(enterMessage);
+    }
+
     public void showSum(BigDecimal sum){
         System.out.println("LCD Display - sum of products: " + sum);
     }
 
-    public void showMessage(String name, String price){
+    public void showMessage(String name, BigDecimal price){
         System.out.println("Product name: " + name + ", price: " + price);
     }
 
