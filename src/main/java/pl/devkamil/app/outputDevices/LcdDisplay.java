@@ -8,11 +8,11 @@ public class LcdDisplay {
         System.out.println("LCD Display - sum of products: " + sum);
     }
 
-    public String showMessage(String price, String name){
-        return "Product name: " + name + ", price: " + price;
+    public void showMessage(String name, String price){
+        System.out.println("Product name: " + name + ", price: " + price);
     }
 
-    public String showErrorMessage(String errorMessage){
-        return "Error: " + errorMessage;
+    public void showErrorMessage(String errorMessage){
+        System.out.println("Error: " + errorMessage);
     }
 }

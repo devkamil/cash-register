@@ -43,7 +43,7 @@ public class Product implements Printable {
 
 
     public String getPrintMessage() {
-        return name + "   " + price;
+        return '\n' + name + "   " + price;
     }
 
 

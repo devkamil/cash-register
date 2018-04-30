@@ -14,11 +14,20 @@ import java.util.List;
 public class Computer {
 
     private final static String EXIT = "exit";
-    BarCodeScanner barCodeScanner = new BarCodeScanner();
-    Database database = new Database();
+    private final static String EMPTY_BAR_CODE = "";
+    private BarCodeScanner barCodeScanner;
+    private Database database;
+    private LcdDisplay lcdDisplay;
+    private Printer printer;
     List<Printable> listOfProducts = new ArrayList();
-    LcdDisplay lcdDisplay = new LcdDisplay();
-    Printer printer = new Printer();
+
+
+    public Computer(){
+        barCodeScanner = new BarCodeScanner();
+        database = new Database();
+        lcdDisplay = new LcdDisplay();
+        printer = new Printer();
+    }
 
 
     public BigDecimal sumOfProducts(List<Printable> listOfProduct) {
@@ -31,42 +40,29 @@ public class Computer {
     }
 
     public boolean verifyBarCode(BarCode barCode){
-        if(!"".equals(barCode.getBarCode())){
-            return true;
-        } else {
-            return false;
-        }
+        return (!EMPTY_BAR_CODE.equals(barCode.getBarCode()));
     }
 
-    public Product findProduct(BarCode barCode, Database database){
-        Product product = new Product();
-        for(Product p: database.getListOfProducts()){
-            if(barCode.equals(p.getBarCode())) {
-                product = p;
-                break;
-            }else{
-                product = null;
-            }
-        }
-        return product;
+    public Product findProductByBarCode(BarCode barCode){
+        return database.findProductByBarCode(barCode);
     }
 
 
     public void run(){
-        database.testList();
 
-        while(!EXIT.equals(barCodeScanner.barCode.getBarCode())){
+        while(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
             BarCode scannedBarCode = barCodeScanner.scan();
 
-            if(verifyBarCode(scannedBarCode) == true){
-                Product product = findProduct(scannedBarCode, database);
+            if(verifyBarCode(scannedBarCode)){
+                Product product = findProductByBarCode(scannedBarCode);
                 if(product != null){
                     listOfProducts.add(product);
-                }else if(!EXIT.equals(barCodeScanner.barCode.getBarCode())){
-                    System.out.println("Product doesn't exist in database");
+                    lcdDisplay.showMessage(product.getName(), (product.getPrice()).toString());
+                }else if(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
+                    lcdDisplay.showErrorMessage("Product doesn't exist in database");
                 }
             }else{
-                System.out.println("Invalid bar code, try again");
+                lcdDisplay.showErrorMessage("Invalid bar code, try again");
             }
         }
         BigDecimal sumOfProducts = sumOfProducts(listOfProducts);

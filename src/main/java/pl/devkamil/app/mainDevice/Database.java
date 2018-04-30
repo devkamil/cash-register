@@ -17,6 +17,10 @@ public class Database {
         return listOfProducts;
     }
 
+    public Database(){
+        testList();
+    }
+
 
     public void testList(){
         listOfProducts = new ArrayList();
@@ -25,5 +29,19 @@ public class Database {
         getListOfProducts().add(new Product("Produkt 3", new BigDecimal("39.99"), new BarCode("303")));
         getListOfProducts().add(new Product("Produkt 4", new BigDecimal("49.99"), new BarCode("404")));
         getListOfProducts().add(new Product("Produkt 5", new BigDecimal("59.99"), new BarCode("505")));
+    }
+
+
+    public Product findProductByBarCode(BarCode barCode){
+        Product product = new Product();
+        for(Product p: getListOfProducts()){
+            if(barCode.equals(p.getBarCode())) {
+                product = p;
+                break;
+            }else{
+                product = null;
+            }
+        }
+        return product;
     }
 }

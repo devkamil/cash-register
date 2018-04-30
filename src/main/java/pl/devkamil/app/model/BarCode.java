@@ -1,6 +1,5 @@
 package pl.devkamil.app.model;
 
-import java.util.Objects;
 
 public class BarCode {
     private String barCode;
@@ -19,17 +18,19 @@ public class BarCode {
         this.barCode = barCode;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         BarCode barCode1 = (BarCode) o;
-        return Objects.equals(barCode, barCode1.barCode);
+
+        return barCode != null ? barCode.equals(barCode1.barCode) : barCode1.barCode == null;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(barCode);
+        return barCode != null ? barCode.hashCode() : 0;
     }
 }

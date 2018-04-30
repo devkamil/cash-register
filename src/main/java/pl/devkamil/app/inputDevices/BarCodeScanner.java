@@ -6,15 +6,20 @@ import java.util.Scanner;
 
 public class BarCodeScanner {
 
-    public BarCode barCode = new BarCode();
+    private BarCode barCode;
     private Scanner input = new Scanner(System.in);
-
 
     public Scanner getInput() {
         return input;
     }
 
+    public BarCode getBarCode() {
+        return barCode;
+    }
 
+    public BarCodeScanner(){
+        barCode = new BarCode();
+    }
 
     public BarCode scan(){
         System.out.println("Enter the bar code: ");
