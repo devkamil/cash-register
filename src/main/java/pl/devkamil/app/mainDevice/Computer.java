@@ -51,14 +51,16 @@ public class Computer {
 
     public void run(){
 
+        BarCode scannedBarCode = null;
 
-        while(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
+        while(!EXIT.equals(scannedBarCode)){
 
             lcdDisplay.showInputMessage("Enter the bar code: ");
-            BarCode scannedBarCode = barCodeScanner.scan();
+            scannedBarCode = barCodeScanner.scan();
 
-            if(EXIT.equals(scannedBarCode))
+            if(EXIT.equals(scannedBarCode.getBarCode())) {
                 break;
+            }
 
             if(verifyBarCode(scannedBarCode)){
                 Product product = findProductByBarCode(scannedBarCode);
@@ -66,7 +68,6 @@ public class Computer {
                     listOfProducts.add(product);
                     lcdDisplay.showMessage(product.getName(), product.getPrice());
                 }else {
-//                    if(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
                     lcdDisplay.showErrorMessage("Product doesn't exist in database");
                 }
             }else{
