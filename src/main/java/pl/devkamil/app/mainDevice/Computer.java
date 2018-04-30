@@ -19,7 +19,7 @@ public class Computer {
     private Database database;
     private LcdDisplay lcdDisplay;
     private Printer printer;
-    List<Printable> listOfProducts = new ArrayList();
+    private List<Printable> listOfProducts;
 
 
     public Computer(){
@@ -27,6 +27,7 @@ public class Computer {
         database = new Database();
         lcdDisplay = new LcdDisplay();
         printer = new Printer();
+        listOfProducts = new ArrayList();
     }
 
 
@@ -49,30 +50,34 @@ public class Computer {
 
 
     public void run(){
-        BarCode scannedBarCode;
 
-        do{
+
+        while(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
+
             lcdDisplay.showInputMessage("Enter the bar code: ");
-            scannedBarCode = barCodeScanner.scan();
+            BarCode scannedBarCode = barCodeScanner.scan();
+
+            if(EXIT.equals(scannedBarCode))
+                break;
 
             if(verifyBarCode(scannedBarCode)){
                 Product product = findProductByBarCode(scannedBarCode);
                 if(product != null){
                     listOfProducts.add(product);
-                    lcdDisplay.showMessage(product.getName(), (product.getPrice()));
-                }else if(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
+                    lcdDisplay.showMessage(product.getName(), product.getPrice());
+                }else {
+//                    if(!EXIT.equals(barCodeScanner.getBarCode().getBarCode())){
                     lcdDisplay.showErrorMessage("Product doesn't exist in database");
                 }
             }else{
                 lcdDisplay.showErrorMessage("Invalid bar code, try again");
             }
-        }while(!EXIT.equals(barCodeScanner.getBarCode().getBarCode()));
-
-        showAndPrintProductsAndSum(listOfProducts);
+        }
+        showAndPrintResult(listOfProducts);
     }
 
 
-    public void showAndPrintProductsAndSum(List<Printable> listPrintable){
+    public void showAndPrintResult(List<Printable> listPrintable){
         BigDecimal sumOfProducts = sumOfProducts(listPrintable);
         printer.print(listPrintable);
         printer.printSum(sumOfProducts);
