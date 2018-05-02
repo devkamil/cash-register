@@ -26,13 +26,11 @@ public class Database {
 
 
     public Product findProductByBarCode(BarCode barCode){
-        Product product = null;
-        for(Product p: setOfProducts){
-            if(barCode.equals(p.getBarCode())) {
-                product = p;
-                break;
+        for(Product product: setOfProducts){
+            if(barCode.equals(product.getBarCode())) {
+                return product;
             }
         }
-        return product;
+        return null;
     }
 }
