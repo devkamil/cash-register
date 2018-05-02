@@ -1,5 +1,6 @@
 package pl.devkamil.app.mainDevice;
 
+import pl.devkamil.app.exceptions.ProductNotFoundException;
 import pl.devkamil.app.model.BarCode;
 import pl.devkamil.app.model.Product;
 
@@ -25,12 +26,12 @@ public class Database {
     }
 
 
-    public Product findProductByBarCode(BarCode barCode){
+    public Product findProductByBarCode(BarCode barCode) throws ProductNotFoundException{
         for(Product product: setOfProducts){
             if(barCode.equals(product.getBarCode())) {
                 return product;
             }
         }
-        return null;
+        throw new ProductNotFoundException(barCode);
     }
 }

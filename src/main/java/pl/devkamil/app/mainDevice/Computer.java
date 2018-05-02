@@ -1,5 +1,7 @@
 package pl.devkamil.app.mainDevice;
 
+import pl.devkamil.app.exceptions.InvalidBarCodeException;
+import pl.devkamil.app.exceptions.ProductNotFoundException;
 import pl.devkamil.app.inputDevices.BarCodeScanner;
 import pl.devkamil.app.model.BarCode;
 import pl.devkamil.app.model.Printable;
@@ -44,16 +46,15 @@ public class Computer {
                 break;
             }
 
-            if(verifyBarCode(scannedBarCode)){
+            try {
+                verifyBarCode(scannedBarCode);
                 Product product = findProductByBarCode(scannedBarCode);
-                if(product != null){
-                    listOfProducts.add(product);
-                    lcdDisplay.showMessage(product.getName(), product.getPrice());
-                }else {
-                    lcdDisplay.showErrorMessage("Product doesn't exist in database");
-                }
-            }else{
-                lcdDisplay.showErrorMessage("Invalid bar code, try again");
+                listOfProducts.add(product);
+                lcdDisplay.showMessage(product.getName(), product.getPrice());
+            }catch(InvalidBarCodeException ex){
+                lcdDisplay.showErrorMessage(ex.getMessage());
+            }catch(ProductNotFoundException ex){
+                lcdDisplay.showErrorMessage(ex.getBarCode().getBarCode() + "" + ex.getMessage());
             }
         }
         showAndPrintResult(listOfProducts);
@@ -68,11 +69,14 @@ public class Computer {
         return sumOfPrice;
     }
 
-    private boolean verifyBarCode(BarCode barCode){
-        return (!EMPTY_BAR_CODE.equals(barCode.getBarCode()));
+    private boolean verifyBarCode(BarCode barCode) throws InvalidBarCodeException {
+        if (!EMPTY_BAR_CODE.equals(barCode.getBarCode())){
+            return true;
+        }
+        throw new InvalidBarCodeException();
     }
 
-    private Product findProductByBarCode(BarCode barCode){
+    private Product findProductByBarCode(BarCode barCode) throws ProductNotFoundException {
         return database.findProductByBarCode(barCode);
     }
 
