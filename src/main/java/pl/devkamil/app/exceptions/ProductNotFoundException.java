@@ -9,11 +9,7 @@ public class ProductNotFoundException extends Exception {
 
 
     public String getMessage() {
-        return String.format(MESSAGE, getBarCode().getBarCode());
-    }
-
-    public BarCode getBarCode() {
-        return barCode;
+        return String.format(MESSAGE, barCode.getBarCode());
     }
 
     public ProductNotFoundException(BarCode barCode) {
