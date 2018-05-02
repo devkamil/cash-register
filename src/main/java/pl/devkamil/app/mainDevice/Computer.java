@@ -54,7 +54,7 @@ public class Computer {
             }catch(InvalidBarCodeException ex){
                 lcdDisplay.showErrorMessage(ex.getMessage());
             }catch(ProductNotFoundException ex){
-                lcdDisplay.showErrorMessage(ex.getBarCode().getBarCode() + "" + ex.getMessage());
+                lcdDisplay.showErrorMessage(ex.getMessage());
             }
         }
         showAndPrintResult(listOfProducts);
