@@ -1,6 +1,8 @@
 package pl.devkamil.app.mainDevice;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -20,21 +22,37 @@ import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComputerTest {
-    private static final String NON_EXIST_PRODUCT = "";
-    private static final String EXIST_PRODUCT = "101";
+    private static final String NON_EXIST_PRODUCT_BAR_CODE = "";
+    private static final String EXIST_PRODUCT_BAR_CODE = "101";
     private Computer computer;
-    private BarCode existBarCode;
-    private BarCode nonExistBarCode;
+    private static BarCode existBarCode;
+    private static BarCode nonExistBarCode;
+    private static Product product;
+    private static Product testProduct;
+    private static List<Printable> printableList;
+    private static ProductNotFoundException productNotFoundException;
 
     @Mock
-    private Database database;
+    private static Database database;
 
 
     @Before
-    public void setUp() {
+    public void setUp() throws ProductNotFoundException {
         computer = new Computer();
-        existBarCode = new BarCode(EXIST_PRODUCT);
-        nonExistBarCode = new BarCode(NON_EXIST_PRODUCT);
+        Mockito.when(database.findProductByBarCode(existBarCode)).thenReturn(product);
+        Mockito.when(database.findProductByBarCode(nonExistBarCode)).thenThrow(productNotFoundException);
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+        existBarCode = new BarCode(EXIST_PRODUCT_BAR_CODE);
+        nonExistBarCode = new BarCode(NON_EXIST_PRODUCT_BAR_CODE);
+        productNotFoundException = new ProductNotFoundException(nonExistBarCode);
+        product = new Product("Product 1", new BigDecimal("19.99"), existBarCode);
+        testProduct = new Product("Product_test_product", new BigDecimal("398"), new BarCode("010101"));
+        printableList = new ArrayList();
+        printableList.add(new Product("Product 1", new BigDecimal("19.99"), new BarCode("101")));
+        printableList.add(new Product("Product 2", new BigDecimal("29.99"), new BarCode("202")));
     }
 
 
@@ -50,35 +68,27 @@ public class ComputerTest {
 
     @Test
     public void shouldFindAndReturnProduct() throws ProductNotFoundException {
-        Product product = new Product("Product 1", new BigDecimal("19.99"), existBarCode);
-        Mockito.when(database.findProductByBarCode(existBarCode)).thenReturn(product);
         assertEquals(product, database.findProductByBarCode(existBarCode));
     }
 
     @Test (expected = ProductNotFoundException.class)
     public void shouldThrowExceptionWhenProductNotFoundInDatabase() throws ProductNotFoundException {
-        ProductNotFoundException exception = new ProductNotFoundException(nonExistBarCode);
-        Mockito.when(database.findProductByBarCode(nonExistBarCode)).thenThrow(exception);
         database.findProductByBarCode(nonExistBarCode);
     }
 
     @Test
     public void shouldPassIfTwoProductsNotEquals() throws ProductNotFoundException {
-        Product product = new Product("Product_test_product", new BigDecimal("398"), new BarCode("010101"));
-        assertNotEquals(product, database.findProductByBarCode(existBarCode));
+        assertNotEquals(testProduct, database.findProductByBarCode(existBarCode));
     }
 
     @Test
     public void shouldPassIfCorrectlyAddsAllPricesOfProducts(){
-        List<Printable> printableList = new ArrayList();
-        printableList.add(new Product("Product 1", new BigDecimal("19.99"), new BarCode("101")));
-        printableList.add(new Product("Product 2", new BigDecimal("29.99"), new BarCode("202")));
         assertEquals(new BigDecimal("49.98"), computer.sumOfProducts(printableList));
     }
 
     @Test
     public void shouldReturnZeroIfMethodsGetsAEmptyList(){
-        assertEquals(new BigDecimal("0"), computer.sumOfProducts(new ArrayList<Printable>()));
+        assertEquals(BigDecimal.ZERO, computer.sumOfProducts(new ArrayList<Printable>()));
     }
 
     @Test (expected = NullPointerException.class)
