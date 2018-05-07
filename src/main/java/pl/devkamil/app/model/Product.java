@@ -1,12 +1,27 @@
 package pl.devkamil.app.model;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "product")
 public class Product implements Printable {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "product_id")
+    private Long id;
     private String name;
     private BigDecimal price;
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "barcode_id")
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private BarCode barCode;
+
+    public Long getId(){
+        return id;
+    }
 
     public String getName() {
         return name;

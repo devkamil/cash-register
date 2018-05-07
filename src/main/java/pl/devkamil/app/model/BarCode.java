@@ -1,8 +1,22 @@
 package pl.devkamil.app.model;
 
 
+import javax.persistence.*;
+
+@Entity
 public class BarCode {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "barcode_id")
+    private Long id;
+    @Column(name = "barcode")
     private String barCode;
+
+//    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "barcode_id")
+    private Product product;
 
     public String getBarCode() {
         return barCode;
