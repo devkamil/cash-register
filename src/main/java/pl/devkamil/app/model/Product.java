@@ -15,8 +15,8 @@ public class Product implements Printable {
     private String name;
     private BigDecimal price;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_barcode_id")
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "fk_barcode_id", unique = true)
     private BarCode barCode;
 
 

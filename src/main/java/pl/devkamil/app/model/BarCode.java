@@ -4,6 +4,7 @@ package pl.devkamil.app.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "barcode")
 public class BarCode {
 
     @Id
@@ -11,8 +12,9 @@ public class BarCode {
     @Column(name = "barcode_id")
     private Long id;
 
-    @Column(name = "barcode")
+    @Column(name = "barcode_value")
     private String barCode;
+
 
     public Long getId(){
         return id;
