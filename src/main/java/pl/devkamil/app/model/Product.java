@@ -8,16 +8,17 @@ import java.math.BigDecimal;
 public class Product implements Printable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
+
     private String name;
     private BigDecimal price;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "barcode_id")
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_barcode_id")
     private BarCode barCode;
+
 
     public Long getId(){
         return id;
@@ -61,7 +62,6 @@ public class Product implements Printable {
         return '\n' + name + "   " + price;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,6 +69,7 @@ public class Product implements Printable {
 
         Product product = (Product) o;
 
+        if (id != null ? !id.equals(product.id) : product.id != null) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
         if (price != null ? !price.equals(product.price) : product.price != null) return false;
         return barCode != null ? barCode.equals(product.barCode) : product.barCode == null;
@@ -76,7 +77,8 @@ public class Product implements Printable {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (barCode != null ? barCode.hashCode() : 0);
         return result;
