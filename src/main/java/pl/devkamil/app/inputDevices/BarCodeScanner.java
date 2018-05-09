@@ -1,9 +1,11 @@
 package pl.devkamil.app.inputDevices;
 
+import org.springframework.stereotype.Component;
 import pl.devkamil.app.model.BarCode;
 
 import java.util.Scanner;
 
+@Component
 public class BarCodeScanner {
 
     private BarCode barCode;

@@ -1,7 +1,10 @@
 package pl.devkamil.app.outputDevices;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 
+@Component
 public class LcdDisplay {
 
     public void showInputMessage(String enterMessage){

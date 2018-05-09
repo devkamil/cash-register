@@ -1,10 +1,12 @@
 package pl.devkamil.app.outputDevices;
 
+import org.springframework.stereotype.Component;
 import pl.devkamil.app.model.Printable;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Component
 public class Printer {
 
     public void print(List<Printable> listOfProducts){
