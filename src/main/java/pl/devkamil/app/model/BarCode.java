@@ -15,7 +15,6 @@ public class BarCode {
     @Column(name = "barcode_value")
     private String barCode;
 
-
     public Long getId(){
         return id;
     }

@@ -1,5 +1,6 @@
 package pl.devkamil.app.model;
 
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
