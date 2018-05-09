@@ -1,8 +1,7 @@
 package pl.devkamil.app.mainDevice;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import pl.devkamil.app.database.HibernateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.devkamil.app.exceptions.InvalidBarCodeException;
 import pl.devkamil.app.exceptions.ProductNotFoundException;
 import pl.devkamil.app.inputDevices.BarCodeScanner;
@@ -11,29 +10,31 @@ import pl.devkamil.app.model.Printable;
 import pl.devkamil.app.model.Product;
 import pl.devkamil.app.outputDevices.LcdDisplay;
 import pl.devkamil.app.outputDevices.Printer;
+import pl.devkamil.app.repository.ProductRepository;
 
-import javax.persistence.NoResultException;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class Computer {
 
     private final static String EXIT = "exit";
     private final static String EMPTY_BAR_CODE = "";
-    private BarCodeScanner barCodeScanner;
-    private LcdDisplay lcdDisplay;
-    private Printer printer;
-    private List<Printable> listOfProducts;
-    private HibernateUtil hibernateUtil;
+    private List<Printable> listOfProducts = new ArrayList<>();
 
-    public Computer(){
-        barCodeScanner = new BarCodeScanner();
-        lcdDisplay = new LcdDisplay();
-        printer = new Printer();
-        listOfProducts = new ArrayList();
-        hibernateUtil = new HibernateUtil();
-    }
+    @Autowired
+    private BarCodeScanner barCodeScanner;
+
+    @Autowired
+    private LcdDisplay lcdDisplay;
+
+    @Autowired
+    private Printer printer;
+
+    @Autowired
+    private ProductRepository productRepository;
 
 
     public void run(){
@@ -80,20 +81,11 @@ public class Computer {
     }
 
     public Product findProductByBarCode(BarCode barCode) throws ProductNotFoundException {
-        Product product = new Product();
-        try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            String hql = "FROM Product P WHERE P.barCode.barCode = :barCode";
-            Query query = session.createQuery(hql);
-            query.setParameter("barCode", barCode.getBarCode());
-            product = (Product) query.getSingleResult();
-            session.close();
-        }catch(NoResultException ex){
-            throw new ProductNotFoundException(barCode);
-        }catch(Exception ex){
-            ex.printStackTrace();
+        Product product = productRepository.findByBarCodeBarCode(barCode.getBarCode());
+        if(product != null) {
+            return product;
         }
-        return product;
+        throw new ProductNotFoundException(barCode);
     }
 
     public void showAndPrintResult(List<Printable> listPrintable){
@@ -102,7 +94,6 @@ public class Computer {
         printer.printSum(sumOfProducts);
         lcdDisplay.showSum(sumOfProducts);
         barCodeScanner.closeInput();
-        HibernateUtil.getSessionFactory().close();
     }
 
 }
