@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import pl.devkamil.app.model.Printable;
 
 import java.math.BigDecimal;
-import java.util.Formatter;
 import java.util.List;
 
 @Component

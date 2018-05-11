@@ -3,7 +3,6 @@ package pl.devkamil.app.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Formatter;
 
 @Entity
 @Table(name = "product")
