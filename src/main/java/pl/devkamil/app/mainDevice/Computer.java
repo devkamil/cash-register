@@ -33,7 +33,7 @@ public class Computer {
 
         while(!EXIT.equals(scannedBarCode)){
 
-            lcdDisplay.showInputMessage("Enter the bar code: ");
+            lcdDisplay.showInputMessage();
             scannedBarCode = productService.barCodeScan();
 
             if(EXIT.equals(scannedBarCode.getBarCode())) {

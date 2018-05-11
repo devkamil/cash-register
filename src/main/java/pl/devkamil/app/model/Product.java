@@ -3,6 +3,7 @@ package pl.devkamil.app.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Formatter;
 
 @Entity
 @Table(name = "product")
@@ -60,7 +61,7 @@ public class Product implements Printable {
 
 
     public String getPrintMessage() {
-        return '\n' + name + "   " + price;
+        return String.format("%-20s %8.2f %n", name, price);
     }
 
     @Override
