@@ -7,7 +7,6 @@ import pl.devkamil.app.exceptions.ProductNotFoundException;
 import pl.devkamil.app.model.BarCode;
 import pl.devkamil.app.model.Printable;
 import pl.devkamil.app.model.Product;
-import pl.devkamil.app.outputDevices.LcdDisplay;
 import pl.devkamil.app.service.ProductService;
 
 import java.util.ArrayList;
@@ -19,8 +18,6 @@ public class Computer {
     private final static String EXIT = "exit";
     private List<Printable> listOfProducts;
 
-    @Autowired
-    private LcdDisplay lcdDisplay;
 
     @Autowired
     private ProductService productService;
@@ -33,7 +30,7 @@ public class Computer {
 
         while(!EXIT.equals(scannedBarCode)){
 
-            lcdDisplay.showInputMessage();
+            productService.showInputMessage();
             scannedBarCode = productService.barCodeScan();
 
             if(EXIT.equals(scannedBarCode.getBarCode())) {
@@ -44,11 +41,11 @@ public class Computer {
                 productService.verifyBarCode(scannedBarCode);
                 Product product = productService.findProductByBarCode(scannedBarCode);
                 listOfProducts.add(product);
-                lcdDisplay.showMessage(product.getName(), product.getPrice());
+                productService.showOneProductMessage(product.getName(), product.getPrice());
             }catch(InvalidBarCodeException ex){
-                lcdDisplay.showErrorMessage(ex.getMessage());
+                productService.showErrorMessage(ex.getMessage());
             }catch(ProductNotFoundException ex){
-                lcdDisplay.showErrorMessage(ex.getMessage());
+                productService.showErrorMessage(ex.getMessage());
             }
         }
         productService.showAndPrintResult(listOfProducts);

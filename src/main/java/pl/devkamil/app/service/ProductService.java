@@ -43,7 +43,7 @@ public class ProductService {
         throw new ProductNotFoundException(barCode);
     }
 
-    public BigDecimal sumOfProducts(List<Printable> listOfProduct) {
+    private BigDecimal sumOfProducts(List<Printable> listOfProduct) {
         BigDecimal sumOfPrice = new BigDecimal("0");
         for(Printable product: listOfProduct){
             Product p = (Product) product;
@@ -65,5 +65,17 @@ public class ProductService {
         printer.printSum(sumOfProducts);
         lcdDisplay.showSum(sumOfProducts);
         barCodeScanner.closeInput();
+    }
+
+    public void showInputMessage(){
+        lcdDisplay.showInputMessage();
+    }
+
+    public void showOneProductMessage(String productName, BigDecimal productPrice){
+        lcdDisplay.showOneProductMessage(productName, productPrice);
+    }
+
+    public void showErrorMessage(String errorMessage){
+        lcdDisplay.showErrorMessage(errorMessage);
     }
 }
