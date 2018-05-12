@@ -24,7 +24,7 @@ public class ProductRepositoryTest {
     private ProductRepository productRepository;
 
     @Test
-    public void whenFindByBarCode_thenReturnProduct(){
+    public void whenFindByBarCode_thenReturnProduct() {
         //given
         Product product = new Product("Product test", new BigDecimal("77.77"), new BarCode("777"));
         testEntityManager.persist(product);
