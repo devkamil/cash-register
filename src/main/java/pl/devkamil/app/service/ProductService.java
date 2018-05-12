@@ -63,4 +63,5 @@ public class ProductService {
     public void closeInput(){
         barCodeScanner.closeInput();
     }
+
 }
