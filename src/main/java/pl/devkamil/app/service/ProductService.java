@@ -43,7 +43,7 @@ public class ProductService {
         throw new ProductNotFoundException(barCode);
     }
 
-    private BigDecimal sumOfProducts(List<Printable> listOfProduct) {
+    public BigDecimal sumOfProducts(List<Printable> listOfProduct) {
         BigDecimal sumOfPrice = new BigDecimal("0");
         for(Printable product: listOfProduct){
             Product p = (Product) product;
