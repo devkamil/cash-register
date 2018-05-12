@@ -7,8 +7,10 @@ import pl.devkamil.app.exceptions.ProductNotFoundException;
 import pl.devkamil.app.model.BarCode;
 import pl.devkamil.app.model.Printable;
 import pl.devkamil.app.model.Product;
+import pl.devkamil.app.outputDevices.LcdDisplay;
 import pl.devkamil.app.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class Computer {
     private final static String EXIT = "exit";
     private List<Printable> listOfProducts;
 
+    @Autowired
+    private LcdDisplay lcdDisplay;
 
     @Autowired
     private ProductService productService;
@@ -30,7 +34,7 @@ public class Computer {
 
         while(!EXIT.equals(scannedBarCode)){
 
-            productService.showInputMessage();
+            lcdDisplay.showInputMessage();
             scannedBarCode = productService.barCodeScan();
 
             if(EXIT.equals(scannedBarCode.getBarCode())) {
@@ -41,13 +45,16 @@ public class Computer {
                 productService.verifyBarCode(scannedBarCode);
                 Product product = productService.findProductByBarCode(scannedBarCode);
                 listOfProducts.add(product);
-                productService.showOneProductMessage(product.getName(), product.getPrice());
+                lcdDisplay.showOneProductMessage(product.getName(), product.getPrice());
             }catch(InvalidBarCodeException ex){
-                productService.showErrorMessage(ex.getMessage());
+                lcdDisplay.showErrorMessage(ex.getMessage());
             }catch(ProductNotFoundException ex){
-                productService.showErrorMessage(ex.getMessage());
+                lcdDisplay.showErrorMessage(ex.getMessage());
             }
         }
-        productService.showAndPrintResult(listOfProducts);
+        BigDecimal sumOfProducts = productService.sumOfProducts(listOfProducts);
+        lcdDisplay.showSum(sumOfProducts);
+        productService.printResult(listOfProducts, sumOfProducts);
+        productService.closeInput();
     }
 }

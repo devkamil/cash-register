@@ -8,7 +8,6 @@ import pl.devkamil.app.inputDevices.BarCodeScanner;
 import pl.devkamil.app.model.BarCode;
 import pl.devkamil.app.model.Printable;
 import pl.devkamil.app.model.Product;
-import pl.devkamil.app.outputDevices.LcdDisplay;
 import pl.devkamil.app.outputDevices.Printer;
 import pl.devkamil.app.repository.ProductRepository;
 
@@ -21,9 +20,6 @@ public class ProductService {
 
     @Autowired
     private BarCodeScanner barCodeScanner;
-
-    @Autowired
-    private LcdDisplay lcdDisplay;
 
     @Autowired
     private Printer printer;
@@ -59,23 +55,12 @@ public class ProductService {
         throw new InvalidBarCodeException();
     }
 
-    public void showAndPrintResult(List<Printable> listPrintable){
-        BigDecimal sumOfProducts = sumOfProducts(listPrintable);
+    public void printResult(List<Printable> listPrintable, BigDecimal sumOfProducts){
         printer.print(listPrintable);
         printer.printSum(sumOfProducts);
-        lcdDisplay.showSum(sumOfProducts);
+    }
+
+    public void closeInput(){
         barCodeScanner.closeInput();
-    }
-
-    public void showInputMessage(){
-        lcdDisplay.showInputMessage();
-    }
-
-    public void showOneProductMessage(String productName, BigDecimal productPrice){
-        lcdDisplay.showOneProductMessage(productName, productPrice);
-    }
-
-    public void showErrorMessage(String errorMessage){
-        lcdDisplay.showErrorMessage(errorMessage);
     }
 }
