@@ -39,7 +39,7 @@ public class Computer {
 
         while(!EXIT.equals(scannedBarCode)){
 
-            lcdDisplay.showInputMessage("Enter the bar code: ");
+            lcdDisplay.showInputMessage();
             scannedBarCode = barCodeScanner.scan();
 
             if(EXIT.equals(scannedBarCode.getBarCode())) {
@@ -50,7 +50,7 @@ public class Computer {
                 verifyBarCode(scannedBarCode);
                 Product product = findProductByBarCode(scannedBarCode);
                 listOfProducts.add(product);
-                lcdDisplay.showMessage(product.getName(), product.getPrice());
+                lcdDisplay.showOneProductMessage(product.getName(), product.getPrice());
             }catch(InvalidBarCodeException ex){
                 lcdDisplay.showErrorMessage(ex.getMessage());
             }catch(ProductNotFoundException ex){
