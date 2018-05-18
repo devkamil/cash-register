@@ -60,7 +60,7 @@ public class Computer {
         showAndPrintResult(listOfProducts);
     }
 
-    private BigDecimal sumOfProducts(List<Printable> listOfProduct) {
+    public BigDecimal sumOfProducts(List<Printable> listOfProduct) {
         BigDecimal sumOfPrice = new BigDecimal("0");
         for(Printable product: listOfProduct){
             Product p = (Product) product;
@@ -69,14 +69,14 @@ public class Computer {
         return sumOfPrice;
     }
 
-    private boolean verifyBarCode(BarCode barCode) throws InvalidBarCodeException {
+    public boolean verifyBarCode(BarCode barCode) throws InvalidBarCodeException {
         if (!EMPTY_BAR_CODE.equals(barCode.getBarCode())){
             return true;
         }
         throw new InvalidBarCodeException();
     }
 
-    private Product findProductByBarCode(BarCode barCode) throws ProductNotFoundException {
+    public Product findProductByBarCode(BarCode barCode) throws ProductNotFoundException {
         return database.findProductByBarCode(barCode);
     }
 
