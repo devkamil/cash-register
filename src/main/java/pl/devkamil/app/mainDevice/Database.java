@@ -18,13 +18,13 @@ public class Database {
 
     private void initMockProducts(){
         setOfProducts = new HashSet<Product>();
-        setOfProducts.add(new Product("Produkt 1", new BigDecimal("19.99"), new BarCode("101")));
-        setOfProducts.add(new Product("Produkt 2", new BigDecimal("29.99"), new BarCode("202")));
-        setOfProducts.add(new Product("Produkt 3", new BigDecimal("39.99"), new BarCode("303")));
-        setOfProducts.add(new Product("Produkt 4", new BigDecimal("49.99"), new BarCode("404")));
-        setOfProducts.add(new Product("Produkt 5", new BigDecimal("59.99"), new BarCode("505")));
-        setOfProducts.add(new Product("Produkt 8", new BigDecimal("888.88"), new BarCode("808")));
-        setOfProducts.add(new Product("Produkt 9", new BigDecimal("99999.99"), new BarCode("909")));
+        setOfProducts.add(new Product("Product 1", new BigDecimal("19.99"), new BarCode("101")));
+        setOfProducts.add(new Product("Product 2", new BigDecimal("29.99"), new BarCode("202")));
+        setOfProducts.add(new Product("Product 3", new BigDecimal("39.99"), new BarCode("303")));
+        setOfProducts.add(new Product("Product 4", new BigDecimal("49.99"), new BarCode("404")));
+        setOfProducts.add(new Product("Product 5", new BigDecimal("59.99"), new BarCode("505")));
+        setOfProducts.add(new Product("Product 8", new BigDecimal("888.88"), new BarCode("808")));
+        setOfProducts.add(new Product("Product 9", new BigDecimal("99999.99"), new BarCode("909")));
     }
 
 
