@@ -23,6 +23,8 @@ public class Database {
         setOfProducts.add(new Product("Produkt 3", new BigDecimal("39.99"), new BarCode("303")));
         setOfProducts.add(new Product("Produkt 4", new BigDecimal("49.99"), new BarCode("404")));
         setOfProducts.add(new Product("Produkt 5", new BigDecimal("59.99"), new BarCode("505")));
+        setOfProducts.add(new Product("Produkt 8", new BigDecimal("888.88"), new BarCode("808")));
+        setOfProducts.add(new Product("Produkt 9", new BigDecimal("99999.99"), new BarCode("909")));
     }
 
 
