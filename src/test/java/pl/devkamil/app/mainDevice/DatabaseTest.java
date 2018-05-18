@@ -25,7 +25,7 @@ public class DatabaseTest {
     @Test
     public void shouldFindProductInDatabase() throws ProductNotFoundException{
         Product product = database.findProductByBarCode(existBarCode);
-        assertEquals(product.getName(), "Produkt 1");
+        assertEquals(product.getName(), "Product 1");
         assertEquals(product.getPrice().toString(), "19.99");
         assertEquals(product.getBarCode(), existBarCode);
     }
